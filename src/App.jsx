@@ -109,7 +109,7 @@ function App() {
         }
         </div>
       </div>
-      <div className='card_products' style={showState.status ? {width: "100%"} : {width: "0%",padding: "0"}} > 
+      <div className='card_products' style={showState.status ? {width: "100%"} : {width: "0%",padding: "0", opacity: "0 "}} > 
           <h2 >Card Products
           <strong>Total: ${total}</strong>
           </h2>
