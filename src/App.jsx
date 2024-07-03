@@ -14,11 +14,8 @@ const reducer = (state,action) => {
    ;
   } else {
    return state = state.filter((el) => el.id !== action.product.id);
-
-  }
-  
+  } 
 }
-
 
 
 
@@ -117,7 +114,9 @@ function App() {
                   <img width={250} height={250} src={product.images[0]} alt="" />
                   <h3>{product.title}</h3>
                   <span className="product_rating">{product.rating}</span>
-                  <p>${product.price} </p><p>{product.stock}</p>
+                  <div className="product_footer">
+                     <p className="product_price">${product.price} </p><p className="product_stock">{product.stock}</p>
+                  </div>
                   <button onClick={() => {removeFromCard(product)}}><BsFillHeartFill  className="product_card_svg"/></button>
               </div>
             ) 
