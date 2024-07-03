@@ -6,16 +6,21 @@ import axios from "./api"
 import { v4 as uuidv4 } from 'uuid'
 
 const reducer = (state,action) => {
-  switch(action.type){
-    case "ADD_TO_CARD" :
-      return [...state, action.product]
-    case "REMOVE_FROM_CART": 
-    const newState = state.filter(product => product.id !== action.id)
-    return newState
-      default:
-       return state
+
+  let index = state.findIndex((el) => el.id === action.product.id);
+  console.log(index);
+  if (index < 0) {
+   return state = [...state, action.product];
+   ;
+  } else {
+   return state = state.filter((el) => el.id !== action.product.id);
+
   }
+  
 }
+
+
+
 
 
 const showReducer = (showState, showAction) => {
@@ -37,6 +42,7 @@ function App() {
   const initialState = []
   const [state,dispatch] = useReducer(reducer,initialState, )
   const [showState,showDispatch] = useReducer(showReducer, {status: false})
+  
  
 
   useEffect(() => {
@@ -46,7 +52,6 @@ function App() {
       setProducts(data)
 
     }
-    
     loadData()
   },[])
 
@@ -60,12 +65,12 @@ function App() {
 
 
   const addToCart = (product) => {
-      dispatch({type: "ADD_TO_CARD", product})
+      dispatch({ product})
 
   }
 
-  const removeFromCard = (id) => {
-    dispatch({type: "REMOVE_FROM_CART", id})
+  const removeFromCard = (product) => {
+    dispatch({ product})
   }
 
 
@@ -73,15 +78,10 @@ function App() {
       showDispatch({type: "CHANGE_WITH"})
   }
 
- 
-  const [likedProducts, setLikedProducts] = useState({});
 
-  const toggleLiked = (productId) => {
-    setLikedProducts(prevLiked => ({
-      ...prevLiked,
-      [productId]: !prevLiked[productId]
-    }));
-  };
+
+
+  
  
 
 
@@ -99,11 +99,8 @@ function App() {
                 <div className="product_footer">
                   <p className="product_price">${product.price} </p><p className="product_stock">{product.stock}</p>
                 </div>
-                <button onClick={() => {addToCart(product); toggleLiked(product.id)}}>{likedProducts[product.id] ? (
-                    <BsFillHeartFill  style={{ color: 'red' }} />
-                  ) : (
-                    <BsFillHeartFill  />
-                  )}</button>
+                <button onClick={() => {addToCart(product)}}>
+                    <BsFillHeartFill  /></button>
             </div>
           ) 
         }
@@ -121,7 +118,7 @@ function App() {
                   <h3>{product.title}</h3>
                   <span className="product_rating">{product.rating}</span>
                   <p>${product.price} </p><p>{product.stock}</p>
-                  <button onClick={() => removeFromCard(product.id)}><BsFillHeartFill  className="product_card_svg"/></button>
+                  <button onClick={() => {removeFromCard(product)}}><BsFillHeartFill  className="product_card_svg"/></button>
               </div>
             ) 
           }
